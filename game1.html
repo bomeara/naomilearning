@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Naomi Game 1</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<script src="processing.js"></script>
+<script src="iprocessing.js"></script>
+<script src="init.js"></script>
+</head>
+<style type="text/css">
+body {
+	margin: 0;
+}
+</style>
+<body>
+<div>
+<script type="application/processing">
+/* @pjs preload="colorimage.jpg"; */
+int stage=0;
+int locationX=round(320/2);
+float velocityX=0;
+int locationY=round(460/2);
+float velocityY=0;
+float noiseScale=0.02;
+int radius=25;
+PImage img;
+color ellipseColor=color(255,80);
+
+
+void setup() 
+{
+  size(320, 460);
+  noStroke();
+  colorMode(RGB, 255, 255, 255, 100);
+  ellipseMode(CENTER);
+  PFont fontA = loadFont("Courier New");
+  textFont(fontA, 36);
+  textAlign(CENTER,CENTER);
+  img = loadImage("colorimage.jpg");
+}
+
+
+
+void draw() 
+{   
+  if (stage==0) {
+  	image(img,0,0);
+  	if (mousePressed) {
+  	  ellipseColor = img.get(mouseX, mouseY);
+  	  stage=1;
+  	}
+  }
+  else if (stage==1) {
+  	background(51); 
+  	//fill(255, 80);
+  	fill(ellipseColor);
+  	ellipse(locationX, locationY, 50, 50);
+  	fill(100);
+  	text('5',locationX,locationY);
+  	velocityX=velocityX+0.1*random(-1,1);
+  	velocityY=velocityY+0.1*random(-1,1);
+  	locationX=min(max(locationX+velocityX,radius),width-radius);
+  	locationY=min(max(locationY+velocityY,radius),height-radius);
+  	if (locationX==radius || locationX==width-radius) {
+  		velocityX=-0.5*velocityX;
+  	}
+  	if (locationY==radius || locationY==height-radius) {
+  		velocityY=-0.5*velocityY;
+  	}
+  }
+  else if(stage>1) {
+  	background(51); 
+    fill(255, 80);
+  	ellipse(mouseX, mouseY, radius*2, radius*2);
+  }
+
+}</script><canvas width="200" height="200"></canvas></div>
+<div style="height:0px;width:0px;overflow:hidden;"></div>
+<p>
+Code written by Naomi (age 5) and Brian O'Meara (age 33) <br />
+based on <a href="http://ejohn.org/apps/processing.js/">Processing.js</a> by <a href="http://ejohn.org/">John Resig</a><br />
+by modifying example written by <a href="http://reas.com/">Casey Reas</a> and <a href="http://benfry.com/">Ben Fry</a><br />
+and by using libraries and examples from <a href="http://www.rockitbaby.de">Michael Schieben</a>. Thanks to all!
+</p>
+</body>
